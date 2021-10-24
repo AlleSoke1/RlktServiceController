@@ -1,0 +1,27 @@
+﻿<Window x:Class="RlktServiceController.ServiceLogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RlktServiceController"
+        mc:Ignorable="d"
+        Title="ServiceLog" Height="450" Width="800">
+    
+    <Window.Resources>
+        <DataTemplate x:Key="TabHeader">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding tabName}"/>
+                <Button Content="X" Click="btnCloseTab" Width="20" Height="20" ToolTip="Close this tab" Background="Red"></Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TabItem">
+            <ScrollViewer>
+                <TextBox IsReadOnly="true" Text="{Binding EventLog}" Width="880" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </ScrollViewer>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <TabControl SelectedIndex="0" x:Name="tabServiceLogs" SelectionChanged="OnTabChanged"/>
+    </Grid>
+</Window>

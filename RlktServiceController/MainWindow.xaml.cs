@@ -21,6 +21,7 @@ namespace RlktServiceController
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ServiceLogWindow serviceLogWindow = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -94,6 +95,16 @@ namespace RlktServiceController
             {
                 e.Cancel = true;
             }
+        }
+
+        private void btnLog_Click(object sender, RoutedEventArgs e)
+        {
+            Service service = (sender as Button).DataContext as Service;
+
+            if (serviceLogWindow == null || serviceLogWindow.IsActive == false)
+                serviceLogWindow = new ServiceLogWindow();
+
+            serviceLogWindow.ShowLogForService(service);
         }
     }
 }

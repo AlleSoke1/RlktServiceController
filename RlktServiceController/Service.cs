@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace RlktServiceController
 {
-    class Service : INotifyPropertyChanged
+    public class Service : INotifyPropertyChanged
     {
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -23,6 +23,7 @@ namespace RlktServiceController
         public string Name { get; set; }
         public string PathExe { get; set; }
         public string Args { get; set; }
+        public string EventLog { get; set; } = "";
         public ServiceStatus _status;
         public ServiceStatus Status { 
             get 
@@ -37,6 +38,7 @@ namespace RlktServiceController
                 NotifyPropertyChanged("CanStart"); 
                 NotifyPropertyChanged("CanStop"); 
                 NotifyPropertyChanged("CanRestart");  
+                NotifyPropertyChanged("IsStateChanged");  
             } 
         }
 
@@ -112,22 +114,41 @@ namespace RlktServiceController
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 process.StartInfo.WorkingDirectory = Path.GetDirectoryName(PathExe);
                 process.StartInfo.RedirectStandardInput = true;
-                process.Start();
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
 
-                Thread.Sleep(100); //wait 100ms for the window to become available
+                process.OutputDataReceived += new DataReceivedEventHandler(Process_OutputDataReceived);
+                process.ErrorDataReceived += new DataReceivedEventHandler(Process_ErrorDataReceived);
                 
-                ShowWindow(process.MainWindowHandle, 2);
+                if (process.Start() == true)
+                {
+                    process.BeginOutputReadLine();
 
-                Status = ServiceStatus.STARTING;
+                    Thread.Sleep(100); //wait 100ms for the window to become available
 
-                Logger.Add("[OnStartProcess] Starting Service[{0}_{1}]", Name, ID.ToString());
+                    ShowWindow(process.MainWindowHandle, 2);
+
+                    Status = ServiceStatus.STARTING;
+
+                    Logger.Add("[OnStartProcess] Starting Service[{0}_{1}]", Name, ID.ToString());
+                }
             }
             catch (Exception err)
             {
                 Status = ServiceStatus.ERROR;
-
                 Logger.Add("[OnStartProcess] Error starting Service[{0}_{1}] Exception[{2}]", Name, ID.ToString(), err.Message);
+                process = null;
             }
+        }
+
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            EventLog += "[out] " + e.Data + Environment.NewLine;
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            EventLog += "[err] " + e.Data + Environment.NewLine;
         }
 
         public void OnResetProcess()
@@ -178,6 +199,17 @@ namespace RlktServiceController
             {
                 if (Status == ServiceStatus.RUNNING ||
                     Status == ServiceStatus.ERROR)
+                    return true;
+
+                return false;
+            }
+        }
+
+        public bool IsStateChanged
+        {
+            get
+            {
+                if (Status != ServiceStatus.STOPPED)
                     return true;
 
                 return false;

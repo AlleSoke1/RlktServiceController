@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RlktServiceController"
         mc:Ignorable="d"
-        Title="Rlkt Service Controller" Height="390" Width="676" Closing="Window_Closing">
+        Title="Rlkt Service Controller" Height="393" Width="689" Closing="Window_Closing">
     <Grid>
 
         <ListBox x:Name="serviceList" Margin="10,45,10,0" Height="140" VerticalAlignment="Top">
@@ -14,9 +14,10 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                         <TextBlock Margin="25,0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBlock>
                         <TextBlock Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding StatusColor, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Width="150"></TextBlock>
-                        <Button Margin="10,0" Content="Start" Click="BtnStart_Click" IsEnabled="{Binding CanStart, UpdateSourceTrigger=PropertyChanged}" Width="70"></Button>
-                        <Button Margin="10,0" Content="Stop" Click="BtnStop_Click" IsEnabled="{Binding CanStop, UpdateSourceTrigger=PropertyChanged}" Width="70"></Button>
-                        <Button Margin="10,0" Content="Restart" Click="BtnRestart_Click" IsEnabled="{Binding CanRestart, UpdateSourceTrigger=PropertyChanged}" Width="70"></Button>
+                        <Button Margin="5,0" Content="Start" Click="BtnStart_Click" IsEnabled="{Binding CanStart, UpdateSourceTrigger=PropertyChanged}" Width="60"></Button>
+                        <Button Margin="5,0" Content="Stop" Click="BtnStop_Click" IsEnabled="{Binding CanStop, UpdateSourceTrigger=PropertyChanged}" Width="60"></Button>
+                        <Button Margin="5,0" Content="Restart" Click="BtnRestart_Click" IsEnabled="{Binding CanRestart, UpdateSourceTrigger=PropertyChanged}" Width="60"></Button>
+                        <Button Margin="5,0" Content="Logs" Click="btnLog_Click" IsEnabled="{Binding IsStateChanged, UpdateSourceTrigger=PropertyChanged}" Width="60"></Button>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

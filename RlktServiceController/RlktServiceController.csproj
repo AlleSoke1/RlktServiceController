@@ -60,6 +60,10 @@
     <Compile Include="IniFile.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="ServiceLog.cs" />
+    <Compile Include="ServiceLogWindow.xaml.cs">
+      <DependentUpon>ServiceLogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ServiceManager.cs" />
     <Compile Include="ServiceStatus.cs" />
     <Page Include="MainWindow.xaml">
@@ -74,6 +78,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ServiceLogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
