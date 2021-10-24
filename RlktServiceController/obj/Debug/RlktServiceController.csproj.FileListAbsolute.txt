@@ -1,0 +1,17 @@
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\RlktServiceController.exe.config
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\RlktServiceController.exe
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\RlktServiceController.pdb
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.csproj.AssemblyReference.cache
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\MainWindow.g.cs
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\ServiceLogWindow.g.cs
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\App.g.cs
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController_MarkupCompile.cache
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController_MarkupCompile.lref
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\MainWindow.baml
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\ServiceLogWindow.baml
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.g.resources
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.Properties.Resources.resources
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.csproj.GenerateResource.cache
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.csproj.CoreCompileInputs.cache
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.exe
+C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\obj\Debug\RlktServiceController.pdb
