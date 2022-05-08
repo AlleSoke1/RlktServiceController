@@ -326,8 +326,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy /y C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\RlktServiceController.exe C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\client\RlktServiceController_client.exe 
 copy /y C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\RlktServiceController.exe C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\server\RlktServiceController_server.exe
-copy /y C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\litenetwork.dll C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\client\litenetwork.dll 
-copy /y C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\litenetwork.dll C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\server\litenetwork.dll</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.6.1\build\Fody.targets" Condition="Exists('..\packages\Fody.6.6.1\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -15,7 +15,7 @@ namespace RlktServiceController
         STANDALONE, 
 
         /// <summary>
-        /// Standalone / Server instance, the network component will be enabled and clients can remotely control the services.
+        /// Similar to Standalone, Server instance, the network component will be enabled and clients can remotely control the services.
         /// </summary>
         SERVER,
 

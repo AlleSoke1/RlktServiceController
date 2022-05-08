@@ -23,7 +23,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBox x:Name="log" IsReadOnly="True" Margin="10,190,10,10" TextWrapping="Wrap"/>
+        <TextBox x:Name="log" IsReadOnly="True" Margin="10,190,10,10" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
         <Button Content="Start All" HorizontalAlignment="Left" Margin="450,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="BtnStartAll_Click"/>
         <Button Content="Stop All" HorizontalAlignment="Left" Margin="558,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="BtnStopAll_Click"/>
 
