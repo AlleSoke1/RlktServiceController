@@ -13,7 +13,7 @@ namespace RlktServiceController.Remote_Network
     {
         Queue<PacketDefinition> packets = new Queue<PacketDefinition>();
 
-
+        #region Server -> Client PACKET RECEIVING
         void OnRecvHandshake(PHandshake handshake)
         {
             Logger.Add($"[Client] Connection handshake recv key {handshake.key}");
@@ -24,7 +24,7 @@ namespace RlktServiceController.Remote_Network
             Logger.Add($"[Client] KeepAlive received {keepAlive.keepalive_txt}");
 
             //Send keepalive back.
-            NetworkClient.client.SendKeepAlivePacket();
+            SendKeepAlivePacket(keepAlive.guid);
         }
 
         void OnRecvServiceInfo(PServiceInfo serviceInfo)
@@ -41,6 +41,58 @@ namespace RlktServiceController.Remote_Network
         {
             Logger.Add($"[DUMMY] Received dummy packet with value {dummyPacket.dummy_value}");
         }
+        #endregion
+
+
+        #region Server -> Client PACKET SENDING
+        public void BroadcastUpdateServiceInfo(Service service)
+        {
+            PServiceInfo serviceInfo = new PServiceInfo();
+            serviceInfo.serviceId = service.ID;
+            serviceInfo.serviceName = "";               //For update purposes, service name is not needed!
+            serviceInfo.serviceStatus = (int)service.Status;
+
+            NetworkServer.Instance.BroadcastPacket(serviceInfo);
+        }
+
+        public void BroadcastKeepAlivePacket()
+        {
+            PKeepAlive keepAlive = new PKeepAlive();
+            keepAlive.keepalive_txt = "KEEPALIVE";
+
+            NetworkServer.Instance.BroadcastPacket(keepAlive);
+        }
+
+        public void BroadcastDummyPacket()
+        {
+            PDummyPacket dummy = new PDummyPacket();
+            dummy.dummy_value = new Random().Next();
+
+            NetworkServer.Instance.BroadcastPacket(dummy);
+        }
+
+        public void SendServiceInfo(Guid guid)
+        {
+            foreach (Service service in ServiceManager.GetServices())
+            {
+                PServiceInfo serviceInfo = new PServiceInfo();
+                serviceInfo.serviceId = service.ID;
+                serviceInfo.serviceName = service.Name;
+                serviceInfo.serviceStatus = (int)service.Status;
+
+                NetworkServer.Instance.SendPacket(serviceInfo, guid);
+            }
+        }
+
+        public void SendKeepAlivePacket(Guid guid)
+        {
+            PKeepAlive keepAlive = new PKeepAlive();
+            keepAlive.keepalive_txt = "KEEPALIVE";
+
+            NetworkServer.Instance.SendPacket(keepAlive, guid);
+        }
+
+        #endregion
 
         //
         private void Tick()
@@ -65,8 +117,8 @@ namespace RlktServiceController.Remote_Network
         }
 
         //
-        public static PacketManagerServerClient managerSCNetwork = new PacketManagerServerClient();
-        public static void OnRecvPacket(PacketDefinition packet) => managerSCNetwork.packets.Enqueue(packet);
-        public static void Process() => managerSCNetwork.Tick();
+        public static PacketManagerServerClient Instance = new PacketManagerServerClient();
+        public static void OnRecvPacket(PacketDefinition packet) => Instance.packets.Enqueue(packet);
+        public static void Process() => Instance.Tick();
     }
 }

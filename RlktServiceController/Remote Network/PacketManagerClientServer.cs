@@ -15,6 +15,7 @@ namespace RlktServiceController.Remote_Network
     {
         Queue<PacketDefinition> packets = new Queue<PacketDefinition>();
 
+        #region CLIENT -> SERVER PACKET RECEIVING
         void OnRecvHandshake(PHandshake handshake)
         {
             Logger.Add($"[Server] Connection handshake recv key {handshake.key}");
@@ -23,11 +24,14 @@ namespace RlktServiceController.Remote_Network
                 Logger.Add($"[Server] Authentification successful.");
 
                 //On successful auth, send the service list.
-                NetworkServer.server.SendServiceInfo(handshake.guid);
+                PacketManagerServerClient.Instance.SendServiceInfo(handshake.guid);
             }
             else
             {
                 Logger.Add($"[Server][ERROR] Authentification failed, shared key does not match.");
+
+                //On failed auth, disconnect the client.
+                NetworkServer.Instance.Disconnect(handshake.guid);
             }
         }
 
@@ -53,7 +57,27 @@ namespace RlktServiceController.Remote_Network
                 case PServiceControl.ServiceOperation.STOP:      ServiceManager.GetService(id)?.Control(ProcessEvent.STOP_PROCESS); break;
             }
         }
-        
+        #endregion
+
+
+        #region CLIENT -> SERVER PACKET SENDING
+        public void SendHandshakePacket()
+        {
+            PHandshake handshake = new PHandshake();
+            handshake.key = CommonConfig.NetworkSharedKey;
+
+            NetworkClient.Instance.SendPacket(handshake);
+        }
+
+        public void SendKeepAlivePacket()
+        {
+            PKeepAlive keepAlive = new PKeepAlive();
+            keepAlive.keepalive_txt = "KEEPALIVE";
+
+            NetworkClient.Instance.SendPacket(keepAlive);
+        }
+        #endregion
+
         //
         private void Tick()
         {
@@ -76,8 +100,8 @@ namespace RlktServiceController.Remote_Network
         }
 
         //
-        public static PacketManagerClientServer managerCSNetwork = new PacketManagerClientServer();
-        public static void OnRecvPacket(PacketDefinition packet) => managerCSNetwork.packets.Enqueue(packet);
-        public static void Process() => managerCSNetwork.Tick();
+        public static PacketManagerClientServer Instance = new PacketManagerClientServer();
+        public static void OnRecvPacket(PacketDefinition packet) => Instance.packets.Enqueue(packet);
+        public static void Process() => Instance.Tick();
     }
 }

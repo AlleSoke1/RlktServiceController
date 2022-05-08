@@ -29,7 +29,7 @@ namespace RlktServiceController.Services
             serviceControl.serviceId = ID;
             serviceControl.operation = operation;
 
-            NetworkClient.client.SendPacket(serviceControl);
+            NetworkClient.Instance.SendPacket(serviceControl);
         }
 
     }

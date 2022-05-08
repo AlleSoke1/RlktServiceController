@@ -39,7 +39,7 @@ namespace RlktServiceController
                 //If this instance is a server, broadcast the status change to all clients
                 if (ServiceManager.GetServerType() == ServiceManagerType.SERVER)
                 {
-                    Remote_Network.NetworkServer.server.BroadcastUpdateServiceInfo(this);
+                    Remote_Network.PacketManagerServerClient.Instance.BroadcastUpdateServiceInfo(this);
                 }
             } 
         }

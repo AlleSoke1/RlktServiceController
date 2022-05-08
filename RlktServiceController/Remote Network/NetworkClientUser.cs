@@ -27,7 +27,11 @@ namespace RlktServiceController.Remote_Network
 
         protected override void OnConnected()
         {
-            Console.WriteLine($"Connected to server ID {Id}.");
+            Console.WriteLine($"Connected to server, ID {Id}.");
+
+            //authentificate via handshake
+            PacketManagerClientServer.Instance.SendHandshakePacket();
+
             base.OnConnected();
         }
 

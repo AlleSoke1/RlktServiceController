@@ -47,7 +47,7 @@ namespace RlktServiceController.Remote_Network
         {
             if(DateTime.Now > nextKeepAliveMsg)
             {
-                BroadcastKeepAlivePacket();
+                PacketManagerServerClient.Instance.BroadcastKeepAlivePacket();
                 nextKeepAliveMsg = DateTime.Now.AddSeconds(keepAliveInterval);
             }
 
@@ -60,63 +60,49 @@ namespace RlktServiceController.Remote_Network
 #endif
         }
 
-        public void BroadcastUpdateServiceInfo(Service service)
+        public bool BroadcastPacket(PacketDefinition packet)
         {
             if (liteServer == null)
-                return;
+                return false;
 
-            PServiceInfo serviceInfo = new PServiceInfo();
-            serviceInfo.serviceId       = service.ID;
-            serviceInfo.serviceName     = "";               //For update purposes, service name is not needed!
-            serviceInfo.serviceStatus   = (int)service.Status;
-
-            foreach (NetworkServerUser client in liteServer.ConnectedUsers) 
-                client.SendPacket(serviceInfo);
-        }
-
-        public void BroadcastKeepAlivePacket()
-        {
-            if (liteServer == null)
-                return;
-
-            PKeepAlive keepAlive = new PKeepAlive();
-            keepAlive.keepalive_txt = "KEEPALIVE";
-
-            foreach (NetworkServerUser client in liteServer.ConnectedUsers)
-                client.SendPacket(keepAlive);
-        }
-
-        public void BroadcastDummyPacket()
-        {
-            if (liteServer == null)
-                return;
-
-            PDummyPacket dummy = new PDummyPacket();
-            dummy.dummy_value = new Random().Next();
-
-            foreach (NetworkServerUser client in liteServer.ConnectedUsers)
-                client.SendPacket(dummy);
-        }
-
-        public void SendServiceInfo(Guid guid)
-        {
-            foreach (Service service in ServiceManager.GetServices())
+            foreach(var client in liteServer.ConnectedUsers)
             {
-                PServiceInfo serviceInfo = new PServiceInfo();
-                serviceInfo.serviceId = service.ID;
-                serviceInfo.serviceName = service.Name;
-                serviceInfo.serviceStatus = (int)service.Status;
+                if (client == null)
+                    continue;
 
-                var client = liteServer.GetUser(guid);
-                if(client != null)
-                   client.SendPacket(serviceInfo);
+                client.SendPacket(packet);
             }
+
+            return true;
+        }
+
+        public bool SendPacket(PacketDefinition packet, Guid clientGuid)
+        {
+            if (liteServer == null)
+                return false;
+
+            var client = liteServer.GetUser(clientGuid);
+            if (client == null)
+                return false;
+
+            client.SendPacket(packet);
+
+            return true;
+        }
+
+        public bool Disconnect(Guid clientGuid)
+        {
+            if (liteServer.GetUser(clientGuid) == null)
+                return false;
+
+            liteServer.DisconnectUser(clientGuid);
+            return true;
         }
 
         public void SetListenInfo(string ipAddr, int port) => (listenServerIP, listenServerPort) = (ipAddr, port);
 
-        public static NetworkServer server = new NetworkServer();
-        public static void Initialize() => server.InitializeServer();
-        public static void Process() => server.Tick();
+        public static NetworkServer Instance = new NetworkServer();
+        public static void Initialize() => Instance.InitializeServer();
+        public static void Process() => Instance.Tick();
     }
 }

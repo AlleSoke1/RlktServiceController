@@ -116,7 +116,7 @@ namespace RlktServiceController
 
                     if (connectIP.Length > 0 && iPort != 0)
                     {
-                        NetworkClient.client.SetConnectInfo(connectIP, iPort);
+                        NetworkClient.Instance.SetConnectInfo(connectIP, iPort);
                     }
 
                     managerType = ServiceManagerType.CLIENT;
@@ -139,7 +139,7 @@ namespace RlktServiceController
 
                     if (listenIP.Length > 0 && iPort != 0)
                     {
-                        NetworkServer.server.SetListenInfo(listenIP, iPort);
+                        NetworkServer.Instance.SetListenInfo(listenIP, iPort);
                     }
 
                     managerType = ServiceManagerType.SERVER;

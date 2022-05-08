@@ -28,12 +28,6 @@ namespace RlktServiceController.Remote_Network
                 };
                 liteClient = new NetworkClientUser(options);
                 await liteClient.ConnectAsync();
-
-                //log connection status
-                Logger.Add($"Client connected successfully at [{connectServerIP}:{connectServerPort}]");
-
-                //send handshake
-                SendHandshakePacket();
             }
             catch (Exception ex)
             {
@@ -69,26 +63,10 @@ namespace RlktServiceController.Remote_Network
             }
         }
 
-        void SendHandshakePacket()
-        {
-            PHandshake handshake = new PHandshake();
-            handshake.key = CommonConfig.NetworkSharedKey;
-
-            SendPacket(handshake);
-        }
-
-        public void SendKeepAlivePacket()
-        {
-            PKeepAlive keepAlive = new PKeepAlive();
-            keepAlive.keepalive_txt = "KEEPALIVE";
-
-            SendPacket(keepAlive);
-        }
-
         public void SetConnectInfo(string ipAddr, int port) => (connectServerIP, connectServerPort) = (ipAddr, port);
 
-        public static NetworkClient client = new NetworkClient();
-        public static void Initialize() => client.InitializeClient();
-        public static void Process() => client.Tick();
+        public static NetworkClient Instance = new NetworkClient();
+        public static void Initialize() => Instance.InitializeClient();
+        public static void Process() => Instance.Tick();
     }
 }
