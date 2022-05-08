@@ -19,37 +19,45 @@ namespace RlktServiceController.Services
 
         public override void Tick()
         {
-            if (process == null)
-                return;
-
-            //Check if the process closed unexpectedly
-            if (process.HasExited && Status != ServiceStatus.STOPPING && Status != ServiceStatus.ERROR)
+            try
             {
-                Logger.Add("Service[{0}_{1}] exited unexpectedly.", Name, ID.ToString());
-                Status = ServiceStatus.ERROR;
-                return;
-            }
+                if (process == null)
+                    return;
 
-            process.Refresh();
-
-            //Check if service is in starting and check if it started
-            if (Status == ServiceStatus.STARTING)
-            {
-                if (process.MainWindowTitle.Contains("operational"))
+                //Check if the process closed unexpectedly
+                if (process.HasExited && Status != ServiceStatus.STOPPING && Status != ServiceStatus.ERROR)
                 {
-                    Logger.Add("Service[{0}_{1}] is operational!", Name, ID.ToString());
-                    Status = ServiceStatus.RUNNING;
-                }
-                else if (process.MainWindowTitle.Contains("failed"))
-                {
-                    Logger.Add("Service[{0}_{1}] failed to start, resulted in error, check the logs!", Name, ID.ToString());
+                    Logger.Add("Service[{0}_{1}] exited unexpectedly.", Name, ID.ToString());
                     Status = ServiceStatus.ERROR;
+                    return;
+                }
+
+                process.Refresh();
+
+                //Check if service is in starting and check if it started
+                if (Status == ServiceStatus.STARTING)
+                {
+                    if (process.MainWindowTitle.Contains("operational"))
+                    {
+                        Logger.Add("Service[{0}_{1}] is operational!", Name, ID.ToString());
+                        Status = ServiceStatus.RUNNING;
+                    }
+                    else if (process.MainWindowTitle.Contains("failed"))
+                    {
+                        Logger.Add("Service[{0}_{1}] failed to start, resulted in error, check the logs!", Name, ID.ToString());
+                        Status = ServiceStatus.ERROR;
+                    }
+                }
+                else if (Status == ServiceStatus.STOPPING)
+                {
+                    if (process.HasExited)
+                        Status = ServiceStatus.STOPPED;
                 }
             }
-            else if (Status == ServiceStatus.STOPPING)
+            catch (Exception ex)
             {
-                if (process.HasExited)
-                    Status = ServiceStatus.STOPPED;
+                Logger.Add("[Exception - Service[{0}_{1}] fault - {2}!", Name, ID.ToString(), ex.Message);
+                Status = ServiceStatus.STOPPED;
             }
         }
 

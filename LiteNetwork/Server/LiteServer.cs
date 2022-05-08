@@ -105,7 +105,18 @@ namespace LiteNetwork.Server
 
             OnBeforeStart();
 
-            IPEndPoint localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Options.Host, Options.Port).ConfigureAwait(false);
+            //RLKT_FIX
+            IPEndPoint? localEndPoint = null;
+            if (Options.Host == "0.0.0.0")
+            {
+                localEndPoint = new IPEndPoint(IPAddress.Any, Options.Port);
+            }
+            else
+            {
+                localEndPoint = await LiteNetworkHelpers.CreateIpEndPointAsync(Options.Host, Options.Port).ConfigureAwait(false);
+            }
+            //END RLKT_FIX
+
             _socket.Bind(localEndPoint);
             _socket.Listen(Options.Backlog);
             _acceptor.StartAccept();

@@ -17,7 +17,7 @@ namespace LiteNetwork.Internal
         private readonly CancellationToken _cancellationToken;
         private readonly LiteConnection _connection;
         private readonly ILitePacketProcessor _packetProcessor;
-        private readonly SocketAsyncEventArgs _socketAsyncEvent;
+        //private readonly SocketAsyncEventArgs _socketAsyncEvent;
         private bool _disposedValue;
 
         public event EventHandler<Exception>? Error;

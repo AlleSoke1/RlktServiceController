@@ -318,6 +318,15 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dotnetlib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <Content Include="Microsoft.Extensions.DependencyInjection.dll" />
+    <Content Include="Microsoft.Extensions.Logging.Abstractions.dll" />
+    <Content Include="Microsoft.Extensions.ObjectPool.dll" />
+  </ItemGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
