@@ -1,61 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace RlktServiceController
+namespace RlktServiceController.Services
 {
-    public class Service : INotifyPropertyChanged
+    internal class LocalService : Service
     {
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string PathExe { get; set; }
-        public string Args { get; set; }
-        public string EventLog { get; set; } = "";
-        public ServiceStatus _status;
-        public ServiceStatus Status { 
-            get 
-            {
-                return _status; 
-            } 
-            set 
-            {
-                _status = value;
-                NotifyPropertyChanged("Status");
-                NotifyPropertyChanged("StatusColor");
-                NotifyPropertyChanged("CanStart"); 
-                NotifyPropertyChanged("CanStop"); 
-                NotifyPropertyChanged("CanRestart");  
-                NotifyPropertyChanged("IsStateChanged");  
-            } 
-        }
-
         private Process process { get; set; }
 
-        public Service()
-        {
-            Status = ServiceStatus.STOPPED;
-        }
-
-        public void Tick()
+        public override void Tick()
         {
             if (process == null)
                 return;
 
             //Check if the process closed unexpectedly
-            if(process.HasExited && Status != ServiceStatus.STOPPING && Status != ServiceStatus.ERROR)
+            if (process.HasExited && Status != ServiceStatus.STOPPING && Status != ServiceStatus.ERROR)
             {
                 Logger.Add("Service[{0}_{1}] exited unexpectedly.", Name, ID.ToString());
                 Status = ServiceStatus.ERROR;
@@ -85,7 +53,7 @@ namespace RlktServiceController
             }
         }
 
-        public void Control(ProcessEvent processEvent)
+        public override void Control(ProcessEvent processEvent)
         {
             switch (processEvent)
             {
@@ -113,16 +81,20 @@ namespace RlktServiceController
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 process.StartInfo.WorkingDirectory = Path.GetDirectoryName(PathExe);
+
+                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+
                 process.StartInfo.RedirectStandardInput = true;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
 
                 process.OutputDataReceived += new DataReceivedEventHandler(Process_OutputDataReceived);
                 process.ErrorDataReceived += new DataReceivedEventHandler(Process_ErrorDataReceived);
-                
+
                 if (process.Start() == true)
                 {
                     process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
 
                     Thread.Sleep(100); //wait 100ms for the window to become available
 
@@ -167,90 +139,5 @@ namespace RlktServiceController
 
             Logger.Add("[OnStopProcess] Stopping Service[{0}_{1}]", Name, ID.ToString());
         }
-
-
-        #region Button and Status Bindings
-        public bool CanStart
-        {
-            get
-            {
-                if (Status == ServiceStatus.ERROR ||
-                    Status == ServiceStatus.STOPPED)
-                    return true;
-
-                return false;
-            }
-        }
-
-        public bool CanStop
-        {
-            get
-            {
-                if (Status == ServiceStatus.RUNNING)
-                    return true;
-
-                return false;
-            }
-        }
-
-        public bool CanRestart
-        {
-            get
-            {
-                if (Status == ServiceStatus.RUNNING ||
-                    Status == ServiceStatus.ERROR)
-                    return true;
-
-                return false;
-            }
-        }
-
-        public bool IsStateChanged
-        {
-            get
-            {
-                if (Status != ServiceStatus.STOPPED)
-                    return true;
-
-                return false;
-            }
-        }
-
-        public Brush StatusColor
-        {
-            get
-            {
-                switch (Status)
-                {
-                    case ServiceStatus.STOPPED:
-                        return Brushes.Gray;
-
-                    case ServiceStatus.STOPPING:
-                    case ServiceStatus.ERROR: 
-                        return Brushes.Red;
-
-                    case ServiceStatus.RUNNING:
-                        return Brushes.Green;
-
-                    case ServiceStatus.STARTING:
-                        return Brushes.DarkGreen;
-                }
-
-                return Brushes.Black;
-            }
-        }
-
-        #endregion
-
-        #region Refresh Bindings
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-        #endregion
     }
 }

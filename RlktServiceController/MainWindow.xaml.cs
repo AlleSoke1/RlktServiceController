@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RlktServiceController.Remote_Network;
 
 namespace RlktServiceController
 {
@@ -26,7 +27,9 @@ namespace RlktServiceController
         {
             InitializeComponent();
             InitializeServiceList();
+            InitializeNetwork();
             CompositionTarget.Rendering += MainLoop;
+            mainWindow = this;
         }
 
         public void MainLoop(object sender, EventArgs e)
@@ -34,11 +37,22 @@ namespace RlktServiceController
             //process services main loop
             ServiceManager.Process();
 
+            //process networking
+            NetworkClient.Process();
+            NetworkServer.Process();
+
+            //process packets
+            if (ServiceManager.GetServerType() == ServiceManagerType.CLIENT)
+                PacketManagerServerClient.Process();
+            if (ServiceManager.GetServerType() == ServiceManagerType.SERVER)
+                PacketManagerClientServer.Process();
+
             //process logger
-            if(Logger.logger.logList.Count > 0)
+            if (Logger.logger.logList.Count > 0)
             {
                 log.AppendText(Logger.logger.logList.Dequeue());
             }
+
         }
 
         public void InitializeServiceList()
@@ -48,6 +62,29 @@ namespace RlktServiceController
             {
                 serviceList.Items.Add(service);
             }
+
+            UpdateTitleByInstanceType();
+        }
+
+        public void InitializeNetwork()
+        {
+            if(ServiceManager.GetServerType() == ServiceManagerType.CLIENT)
+                NetworkClient.Initialize();
+
+            if (ServiceManager.GetServerType() == ServiceManagerType.SERVER)
+                NetworkServer.Initialize();
+        }
+
+        private void UpdateTitleByInstanceType()
+        {
+            if (ServiceManager.GetServerType() == ServiceManagerType.STANDALONE)
+                Title += " - [Standalone]";
+
+            if (ServiceManager.GetServerType() == ServiceManagerType.SERVER)
+                Title += " - [Server Instance]"; 
+
+            if (ServiceManager.GetServerType() == ServiceManagerType.CLIENT)
+                Title += " - [Client/Remote Instance]";
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -106,5 +143,15 @@ namespace RlktServiceController
 
             serviceLogWindow.ShowLogForService(service);
         }
+
+        public void OnRemoteServiceReceived(Service service)
+        {
+            if (serviceList.Items.Contains(service) == false)
+            {
+                serviceList.Items.Add(service);
+            }
+        }
+
+        public static MainWindow mainWindow = null;
     }
 }

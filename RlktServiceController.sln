@@ -5,16 +5,96 @@ VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RlktServiceController", "RlktServiceController\RlktServiceController.csproj", "{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RlktServiceControllerCommon", "RlktServiceControllerCommon\RlktServiceControllerCommon.csproj", "{F24DBC52-A7D9-450E-97CE-1F1110FC889A}"
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "RlktServiceController_client", "RlktServiceController\bin\Debug\client\RlktServiceController_client.exe", "{7827AD87-E0C7-4B38-846C-545DEF033EBD}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\client\RlktServiceController_client.exe
+		RemoteMachine = DESKTOP-6BF34G3
+		StartingDirectory = C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\client
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+		IORedirection = Auto
+	EndProjectSection
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "RlktServiceController_server", "RlktServiceController\bin\Debug\server\RlktServiceController_server.exe", "{E64F2BAF-A013-4BD9-B823-1DE0F2533971}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\server\RlktServiceController_server.exe
+		RemoteMachine = DESKTOP-6BF34G3
+		StartingDirectory = C:\Users\greg\source\repos\RlktServiceController\RlktServiceController\bin\Debug\server
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+		IORedirection = Auto
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetwork", "LiteNetwork\LiteNetwork.csproj", "{59517666-47B1-4427-8A2E-A30503DB632B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Package|Any CPU = Package|Any CPU
+		Package|x86 = Package|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Debug|x86.Build.0 = Debug|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Package|Any CPU.Build.0 = Release|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Package|x86.ActiveCfg = Release|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Package|x86.Build.0 = Release|Any CPU
 		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Release|x86.ActiveCfg = Release|Any CPU
+		{45DD3A66-057D-4D9E-9C6C-B9179C3DC58D}.Release|x86.Build.0 = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Debug|x86.Build.0 = Debug|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Package|Any CPU.ActiveCfg = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Package|Any CPU.Build.0 = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Package|x86.ActiveCfg = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Package|x86.Build.0 = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Release|x86.ActiveCfg = Release|Any CPU
+		{F24DBC52-A7D9-450E-97CE-1F1110FC889A}.Release|x86.Build.0 = Release|Any CPU
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Debug|Any CPU.ActiveCfg = Release|x86
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Debug|x86.ActiveCfg = Release|x86
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Package|Any CPU.ActiveCfg = Release|x86
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Package|x86.ActiveCfg = Release|x86
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Release|Any CPU.ActiveCfg = Release|x86
+		{7827AD87-E0C7-4B38-846C-545DEF033EBD}.Release|x86.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Debug|Any CPU.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Debug|x86.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Package|Any CPU.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Package|x86.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Release|Any CPU.ActiveCfg = Release|x86
+		{E64F2BAF-A013-4BD9-B823-1DE0F2533971}.Release|x86.ActiveCfg = Release|x86
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Debug|x86.Build.0 = Debug|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Package|Any CPU.Build.0 = Package|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Package|x86.ActiveCfg = Package|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Package|x86.Build.0 = Package|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Release|x86.ActiveCfg = Release|Any CPU
+		{59517666-47B1-4427-8A2E-A30503DB632B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

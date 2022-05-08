@@ -10,6 +10,7 @@ namespace RlktServiceController
     {
         public static Logger logger = new Logger();
         public static void Add(string message, params string[] param) => logger.AddEntry(string.Format(message,param));
+        public static void Add(string message) => logger.AddEntry(message);
 
         //
         public Queue<string> logList = new Queue<string>();

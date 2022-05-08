@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RlktServiceController
+namespace RlktServiceControllerCommon
 {
-    class IniFile
+    public class IniFile
     {
         string Path;
         string EXE = Assembly.GetExecutingAssembly().GetName().Name;
